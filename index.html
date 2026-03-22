@@ -233,6 +233,10 @@ body {
             <input type="number" id="paid" placeholder="0" oninput="updateReceipt()">
         </div>
         <div class="field">
+            <label>Discount (₹)</label>
+            <input type="number" id="discount" placeholder="0 (optional)" oninput="updateReceipt()">
+        </div>
+        <div class="field">
             <label>WhatsApp Number</label>
             <input type="number" id="phone" placeholder="98xxxxxxxx">
         </div>
@@ -272,7 +276,7 @@ body {
 
         <div class="r-center r-bold" style="font-size:15px;letter-spacing:1px;">MAGIC STUDIO</div>
         <div class="r-center" style="font-size:11px;margin-top:4px;line-height:1.7;">
-            Shop No.9, Hareshwar Niwas<br>
+            Shop No.9, Hareshwar Niwas,<br>
             Eksar Rd, Borivali (W), Mumbai<br>
             📞 96533 17228
         </div>
@@ -295,12 +299,13 @@ body {
         <hr class="r-divider">
 
         <div class="r-total-row"><span>Total Amount</span><span>₹ <span id="r_total">0</span></span></div>
+        <div class="r-total-row" id="r_discount_row" style="display:none;"><span>Discount</span><span>− ₹ <span id="r_discount">0</span></span></div>
         <div class="r-total-row"><span>Amount Paid</span><span>₹ <span id="r_paid">0</span></span></div>
         <div class="r-total-row pending"><span>Amount Pending</span><span>₹ <span id="r_pending">0</span></span></div>
 
         <hr class="r-divider">
 
-        <div class="r-center" style="font-size:12px;">Thank you for trusting us 🙏</div>
+        <div class="r-center" style="font-size:12px;">If it stands out, it's Magic Studio.</div>
 
     </div>
 
@@ -362,6 +367,7 @@ function renderProductRows() {
 
 function updateReceipt() {
     let paid = parseFloat(document.getElementById("paid").value) || 0;
+    let discount = parseFloat(document.getElementById("discount").value) || 0;
     let rProducts = document.getElementById("r_products");
     rProducts.innerHTML = '';
     let total = 0;
@@ -380,9 +386,20 @@ function updateReceipt() {
         rProducts.appendChild(row);
     });
 
+    let finalTotal = total - discount;
+
     document.getElementById("r_total").innerText = total;
     document.getElementById("r_paid").innerText = paid;
-    document.getElementById("r_pending").innerText = total - paid;
+    document.getElementById("r_pending").innerText = finalTotal - paid;
+
+    // Show discount row only if discount > 0
+    const discountRow = document.getElementById("r_discount_row");
+    if (discount > 0) {
+        document.getElementById("r_discount").innerText = discount;
+        discountRow.style.display = 'flex';
+    } else {
+        discountRow.style.display = 'none';
+    }
 }
 
 addProduct();
@@ -392,9 +409,17 @@ function waitForImages(cb) {
     img.complete ? cb() : (img.onload = cb);
 }
 
+function getCanvas() {
+    return html2canvas(document.getElementById("receipt"), {
+        useCORS: true,
+        scale: 2,
+        backgroundColor: '#ffffff'
+    });
+}
+
 function copyImage() {
     waitForImages(() => {
-        html2canvas(document.getElementById("receipt"), { useCORS: true }).then(canvas => {
+        getCanvas().then(canvas => {
             canvas.toBlob(blob => {
                 navigator.clipboard.write([new ClipboardItem({ "image/png": blob })])
                     .then(() => { alert("Copied ✅"); increaseReceipt(); getReceiptNumber(); })
@@ -406,10 +431,10 @@ function copyImage() {
 
 function downloadImage() {
     waitForImages(() => {
-        html2canvas(document.getElementById("receipt"), { useCORS: true }).then(canvas => {
+        getCanvas().then(canvas => {
             let link = document.createElement("a");
             link.download = "receipt.jpg";
-            link.href = canvas.toDataURL("image/jpeg");
+            link.href = canvas.toDataURL("image/jpeg", 1.0);
             link.click();
             increaseReceipt();
             getReceiptNumber();
@@ -422,7 +447,7 @@ function sendWhatsApp() {
     if (!phone) { alert("Enter WhatsApp number"); return; }
     if (!phone.startsWith("91")) phone = "91" + phone;
     waitForImages(() => {
-        html2canvas(document.getElementById("receipt"), { useCORS: true }).then(canvas => {
+        getCanvas().then(canvas => {
             canvas.toBlob(blob => {
                 navigator.clipboard.write([new ClipboardItem({ "image/png": blob })])
                     .then(() => {
