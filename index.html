@@ -15,13 +15,44 @@ body {
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    padding: 24px 16px;
+    padding: 28px 20px;
     min-height: 100vh;
 }
 
-.card {
+/* ── DRAG OVERLAY ── */
+#dragOverlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 999;
+    align-items: center;
+    justify-content: center;
+    font-family: monospace;
+    font-size: 22px;
+    color: white;
+    letter-spacing: 1px;
+    flex-direction: column;
+    gap: 14px;
+    pointer-events: none;
+}
+#dragOverlay.active { display: flex; }
+#dragOverlay .drop-icon { font-size: 60px; }
+
+/* ── MAIN LAYOUT ── */
+.layout {
+    display: flex;
+    gap: 28px;
     width: 100%;
-    max-width: 680px;
+    max-width: 1060px;
+    align-items: flex-start;
+}
+
+.form-col  { flex: 1; min-width: 0; }
+.preview-col { width: 360px; flex-shrink: 0; }
+
+/* ── FORM CARD ── */
+.card {
     background: #f5f5f5;
     border: 1px solid #bbb;
     border-radius: 4px;
@@ -29,57 +60,60 @@ body {
 }
 
 .section {
-    padding: 16px 18px;
+    padding: 18px 20px;
     border-bottom: 2px solid #bbb;
 }
 .section:last-child { border-bottom: none; }
 
 .section-title {
-    font-size: 12px;
+    font-size: 13px;
     font-weight: bold;
-    letter-spacing: 1px;
+    letter-spacing: 1.2px;
     text-transform: uppercase;
-    color: #777;
-    margin-bottom: 12px;
+    color: #666;
+    margin-bottom: 14px;
 }
 
 .field {
     display: flex;
     flex-direction: column;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
 }
 .field:last-child { margin-bottom: 0; }
 
 .field label {
     font-size: 12px;
-    color: #666;
-    margin-bottom: 4px;
+    color: #555;
+    margin-bottom: 5px;
     letter-spacing: 0.5px;
+    font-weight: bold;
+    text-transform: uppercase;
 }
 
 .field input {
     width: 100%;
-    padding: 9px 11px;
+    padding: 12px 13px;
     border: 1px solid #ccc;
     background: white;
     font-family: monospace;
-    font-size: 15px;
+    font-size: 17px;
     outline: none;
+    border-radius: 2px;
 }
-.field input:focus { border-color: #555; }
+.field input:focus { border-color: #444; background: #fffef8; }
 
-/* Product table header */
+/* Column headers */
 .col-header {
     display: flex;
     gap: 8px;
     align-items: center;
     margin-bottom: 8px;
-    padding-bottom: 6px;
+    padding-bottom: 7px;
     border-bottom: 1px solid #ccc;
 }
 .col-header span {
     font-size: 12px;
-    color: #888;
+    color: #777;
     font-weight: bold;
     letter-spacing: 0.5px;
     text-transform: uppercase;
@@ -87,59 +121,62 @@ body {
 .col-header .h-name  { flex: 2.2; }
 .col-header .h-qty   { flex: 0.7; text-align: center; }
 .col-header .h-price { flex: 1.1; text-align: right; }
-.col-header .h-del   { width: 36px; }
+.col-header .h-del   { width: 42px; }
 
-/* Product input rows */
+/* Product rows */
 .product-row {
     display: flex;
     gap: 8px;
     align-items: center;
-    margin-bottom: 8px;
+    margin-bottom: 9px;
 }
 .product-row input {
-    padding: 9px 10px;
+    padding: 11px 10px;
     border: 1px solid #ccc;
     background: white;
     font-family: monospace;
-    font-size: 14px;
+    font-size: 15px;
     outline: none;
     width: 100%;
+    border-radius: 2px;
 }
-.product-row input:focus { border-color: #555; }
+.product-row input:focus { border-color: #444; background: #fffef8; }
 .product-row .p-name  { flex: 2.2; }
 .product-row .p-qty   { flex: 0.7; text-align: center; }
 .product-row .p-price { flex: 1.1; text-align: right; }
 
 .remove-btn {
-    width: 36px;
-    height: 38px;
+    width: 42px;
+    height: 42px;
     background: #cc0000;
     color: white;
     border: none;
     cursor: pointer;
-    font-size: 15px;
+    font-size: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+    border-radius: 2px;
 }
 .remove-btn:hover { background: #990000; }
 
 .add-btn {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     background: #444;
     color: white;
     border: none;
     cursor: pointer;
     font-family: monospace;
-    font-size: 14px;
+    font-size: 15px;
     letter-spacing: 0.5px;
-    margin-top: 2px;
+    margin-top: 4px;
+    border-radius: 2px;
 }
 .add-btn:hover { background: #222; }
 
-/* Action buttons */
+/* Action button grid */
 .btn-group {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -149,60 +186,78 @@ body {
 
 .action-btn {
     width: 100%;
-    padding: 13px;
+    padding: 15px;
     border: none;
     cursor: pointer;
     font-family: monospace;
-    font-size: 14px;
+    font-size: 15px;
     font-weight: bold;
     letter-spacing: 0.5px;
+    border-radius: 2px;
 }
 .btn-dark  { background: #111; color: white; }
-.btn-dark:hover { background: #333; }
+.btn-dark:hover  { background: #333; }
 .btn-green { background: #128c3e; color: white; }
 .btn-green:hover { background: #0e6f31; }
+.btn-blue  { background: #1a5fa8; color: white; }
+.btn-blue:hover  { background: #164d8a; }
+.btn-amber { background: #8a4a00; color: white; }
+.btn-amber:hover { background: #6b3900; }
 
-/* Receipt */
+/* ── PREVIEW ── */
+.preview-label {
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+/* Receipt locked at 360px — mobile-size output */
 #receipt {
+    width: 360px;
     background: white;
-    padding: 20px 24px;
-    font-size: 15px;
-    border-top: 2px solid #bbb;
+    padding: 16px;
+    font-size: 13px;
+    border: 1px solid #bbb;
+    border-radius: 4px;
+    font-family: monospace;
 }
 
 .r-center { text-align: center; }
 .r-bold   { font-weight: bold; }
-
-.logo { width: 96px; margin-bottom: 8px; }
+.logo     { width: 80px; margin-bottom: 6px; }
 
 .r-divider {
     border: none;
     border-top: 1px dashed #000;
-    margin: 11px 0;
+    margin: 9px 0;
 }
 
 .r-row {
     display: flex;
     justify-content: space-between;
-    margin: 4px 0;
-    font-size: 14px;
+    margin: 3px 0;
+    font-size: 12px;
 }
 
 .r-item-header {
     display: flex;
-    font-size: 12px;
+    font-size: 10px;
     color: #888;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    padding-bottom: 5px;
+    padding-bottom: 4px;
     border-bottom: 1px solid #ddd;
-    margin-bottom: 5px;
+    margin-bottom: 4px;
 }
 .r-item-header .rh-name { flex: 2; }
 .r-item-header .rh-qty  { flex: 0.6; text-align: center; }
 .r-item-header .rh-amt  { flex: 1; text-align: right; }
 
-.r-product-row { display: flex; font-size: 14px; margin: 4px 0; }
+.r-product-row { display: flex; font-size: 12px; margin: 3px 0; }
 .r-product-row .r-name { flex: 2; }
 .r-product-row .r-qty  { flex: 0.6; text-align: center; color: #555; }
 .r-product-row .r-amt  { flex: 1; text-align: right; }
@@ -210,126 +265,178 @@ body {
 .r-total-row {
     display: flex;
     justify-content: space-between;
-    font-size: 14px;
-    margin: 4px 0;
+    font-size: 12px;
+    margin: 3px 0;
 }
 .r-total-row.pending {
     font-weight: bold;
-    font-size: 15px;
-    margin-top: 6px;
-    padding-top: 6px;
+    font-size: 13px;
+    margin-top: 5px;
+    padding-top: 5px;
     border-top: 1px solid #000;
 }
 
-/* Small phones */
+/* Responsive stacking on iPad portrait / phones */
+@media (max-width: 820px) {
+    .layout {
+        flex-direction: column;
+        align-items: center;
+    }
+    .form-col   { width: 100%; max-width: 680px; }
+    .preview-col { width: 360px; }
+}
 @media (max-width: 400px) {
-    body { padding: 12px 8px; }
-    .section { padding: 12px 12px; }
-    .field input { font-size: 14px; }
-    .product-row input { font-size: 13px; }
+    body { padding: 10px 6px; }
+    .preview-col, #receipt { width: 100%; }
 }
 
 </style>
 </head>
 <body>
 
-<div class="card">
-
-    <!-- CUSTOMER INFO -->
-    <div class="section">
-        <div class="section-title">Customer Info</div>
-        <div class="field">
-            <label>Amount Paid (₹)</label>
-            <input type="number" id="paid" placeholder="0" oninput="updateReceipt()">
-        </div>
-        <div class="field">
-            <label>Discount (₹)</label>
-            <input type="number" id="discount" placeholder="0 (optional)" oninput="updateReceipt()">
-        </div>
-        <div class="field">
-            <label>WhatsApp Number</label>
-            <input type="number" id="phone" placeholder="98xxxxxxxx">
-        </div>
-    </div>
-
-    <!-- PRODUCTS -->
-    <div class="section">
-        <div class="section-title">Products / Services</div>
-        <div class="col-header">
-            <span class="h-name">Item Name</span>
-            <span class="h-qty">Qty</span>
-            <span class="h-price">Price ₹</span>
-            <span class="h-del"></span>
-        </div>
-        <div id="productRows"></div>
-        <button class="add-btn" onclick="addProduct()">＋ Add Product / Service</button>
-    </div>
-
-    <!-- ACTIONS -->
-    <div class="section">
-        <div class="section-title">Actions</div>
-        <div class="btn-group">
-            <button class="action-btn btn-dark" onclick="copyImage()">📋 Copy JPG</button>
-            <button class="action-btn btn-dark" onclick="downloadImage()">💾 Save JPG</button>
-            <button class="action-btn btn-green btn-full" onclick="sendWhatsApp()">📲 Send via WhatsApp</button>
-        </div>
-    </div>
-
-    <!-- RECEIPT PREVIEW -->
-    <div id="receipt">
-
-        <div class="r-center">
-            <img id="logo"
-                src="https://image2url.com/r2/default/images/1773827734093-cfea9993-0486-46c7-bb42-f553bdacdd61.png"
-                crossorigin="anonymous" class="logo">
-        </div>
-
-        <div class="r-center r-bold" style="font-size:17px;letter-spacing:1px;">MAGIC STUDIO</div>
-        <div class="r-center" style="font-size:13px;margin-top:5px;line-height:1.8;">
-            Shop No.9, Hareshwar Niwas,<br>
-            Eksar Rd, Borivali (W), Mumbai<br>
-            📞 96533 17228
-        </div>
-
-        <hr class="r-divider">
-
-        <div class="r-row"><span>Date</span><span id="date"></span></div>
-        <div class="r-row"><span>Time</span><span id="time"></span></div>
-
-        <hr class="r-divider">
-
-        <div class="r-item-header">
-            <span class="rh-name">Item</span>
-            <span class="rh-qty">Qty</span>
-            <span class="rh-amt">Amount</span>
-        </div>
-        <div id="r_products"></div>
-
-        <hr class="r-divider">
-
-        <div class="r-total-row"><span>Total Amount</span><span>₹ <span id="r_total">0</span></span></div>
-        <div class="r-total-row" id="r_discount_row" style="display:none;"><span>Discount</span><span>− ₹ <span id="r_discount">0</span></span></div>
-        <div class="r-total-row"><span>Amount Paid</span><span>₹ <span id="r_paid">0</span></span></div>
-        <div class="r-total-row pending"><span>Amount Pending</span><span>₹ <span id="r_pending">0</span></span></div>
-
-        <hr class="r-divider">
-
-        <div class="r-center" style="font-size:13px;">If it stands out, it's Magic Studio.</div>
-
-    </div>
-
+<div id="dragOverlay">
+    <span class="drop-icon">📂</span>
+    DROP JSON TO LOAD RECEIPT
 </div>
+
+<div class="layout">
+
+    <!-- ═══ FORM ═══ -->
+    <div class="form-col">
+    <div class="card">
+
+        <div class="section">
+            <div class="section-title">Customer Info</div>
+            <div class="field">
+                <label>Client Name</label>
+                <input type="text" id="clientName" placeholder="e.g. Ramesh Shah" oninput="updateReceipt()">
+            </div>
+            <div class="field">
+                <label>Amount Paid (₹)</label>
+                <input type="number" id="paid" placeholder="0" oninput="updateReceipt()">
+            </div>
+            <div class="field">
+                <label>Discount (₹)</label>
+                <input type="number" id="discount" placeholder="0 (optional)" oninput="updateReceipt()">
+            </div>
+            <div class="field">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;">
+                    <label style="margin-bottom:0;">WhatsApp Number</label>
+                    <button onclick="copyPhone()" id="copyPhoneBtn"
+                        style="font-family:monospace;font-size:11px;font-weight:bold;letter-spacing:0.5px;
+                               padding:4px 10px;background:#1a5fa8;color:white;border:none;cursor:pointer;
+                               border-radius:2px;text-transform:uppercase;">
+                        📋 Copy
+                    </button>
+                </div>
+                <input type="number" id="phone" placeholder="98xxxxxxxx">
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Products / Services</div>
+            <div class="col-header">
+                <span class="h-name">Item Name</span>
+                <span class="h-qty">Qty</span>
+                <span class="h-price">Price ₹</span>
+                <span class="h-del"></span>
+            </div>
+            <div id="productRows"></div>
+            <button class="add-btn" onclick="addProduct()">＋ Add Product / Service</button>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Actions</div>
+            <div class="btn-group">
+                <button class="action-btn btn-dark"  onclick="copyImage()">📋 Copy JPG</button>
+                <button class="action-btn btn-dark"  onclick="downloadImage()">💾 Save JPG</button>
+                <button class="action-btn btn-green btn-full" onclick="sendWhatsApp()">📲 Send via WhatsApp</button>
+                <button class="action-btn btn-blue  btn-full" onclick="saveJSON()">🗂 Save as JSON</button>
+                <button class="action-btn btn-amber btn-full" onclick="clearAll()">🗑 Clear / New Receipt</button>
+            </div>
+        </div>
+
+    </div>
+    </div>
+
+    <!-- ═══ PREVIEW ═══ -->
+    <div class="preview-col">
+        <div class="preview-label">📄 Receipt Preview (Mobile Size)</div>
+
+        <div id="receipt">
+
+            <div class="r-center">
+                <img id="logo"
+                    src="https://image2url.com/r2/default/images/1773827734093-cfea9993-0486-46c7-bb42-f553bdacdd61.png"
+                    crossorigin="anonymous"
+                    class="logo"
+                    onerror="this.style.display='none'">
+            </div>
+
+            <div class="r-center r-bold" style="font-size:15px;letter-spacing:1px;">MAGIC STUDIO</div>
+            <div class="r-center" style="font-size:11px;margin-top:4px;line-height:1.7;">
+                Shop No.9, Hareshwar Niwas,<br>
+                Eksar Rd, Borivali (W), Mumbai<br>
+                📞 96533 17228
+            </div>
+
+            <hr class="r-divider">
+
+            <div class="r-row"><span>Date</span><span id="date"></span></div>
+            <div class="r-row"><span>Time</span><span id="time"></span></div>
+
+            <hr class="r-divider">
+
+            <div class="r-item-header">
+                <span class="rh-name">Item</span>
+                <span class="rh-qty">Qty</span>
+                <span class="rh-amt">Amount</span>
+            </div>
+            <div id="r_products"></div>
+
+            <hr class="r-divider">
+
+            <div class="r-total-row"><span>Total Amount</span><span>₹ <span id="r_total">0</span></span></div>
+            <div class="r-total-row" id="r_discount_row" style="display:none;">
+                <span>Discount</span><span>− ₹ <span id="r_discount">0</span></span>
+            </div>
+            <div class="r-total-row"><span>Amount Paid</span><span>₹ <span id="r_paid">0</span></span></div>
+            <div class="r-total-row pending"><span>Amount Pending</span><span>₹ <span id="r_pending">0</span></span></div>
+
+            <hr class="r-divider">
+
+            <div class="r-center" style="font-size:12px;">If it stands out, it's Magic Studio.</div>
+
+        </div>
+
+    </div>
+
+</div><!-- /.layout -->
 
 <script>
 
+/* ── TIME ── */
 function updateTime() {
-    let now = new Date();
+    const now = new Date();
     document.getElementById("date").innerText = now.toLocaleDateString('en-IN');
     document.getElementById("time").innerText = now.toLocaleTimeString('en-IN');
 }
 setInterval(updateTime, 1000);
 updateTime();
 
+/* ── SMART FILENAME ── */
+function getFilename(ext) {
+    const name  = (document.getElementById("clientName").value || "").trim().replace(/[\/\\:*?"<>|]/g, '');
+    const phone = (document.getElementById("phone").value || "").trim();
+    const now   = new Date();
+    const d     = now.toLocaleDateString('en-IN').replace(/\//g, "-");
+    if (name && phone) return `${name} - ${phone}.${ext}`;
+    if (name)          return `${name} - ${d}.${ext}`;
+    if (phone)         return `${phone} - ${d}.${ext}`;
+    return `Receipt - ${d}.${ext}`;
+}
+
+/* ── PRODUCTS ── */
 let products = [];
 
 function addProduct() {
@@ -344,115 +451,212 @@ function removeProduct(id) {
     updateReceipt();
 }
 
+function esc(s) { return (s || '').replace(/"/g, '&quot;'); }
+
 function renderProductRows() {
-    let container = document.getElementById("productRows");
-    container.innerHTML = '';
+    const c = document.getElementById("productRows");
+    c.innerHTML = '';
     products.forEach((p, i) => {
-        let row = document.createElement('div');
+        const row = document.createElement('div');
         row.className = 'product-row';
         row.innerHTML = `
-            <input class="p-name" type="text" placeholder="Item name" value="${p.name}"
+            <input class="p-name"  type="text"   placeholder="Item name" value="${esc(p.name)}"
                 oninput="products[${i}].name=this.value; updateReceipt()">
-            <input class="p-qty" type="number" min="1" placeholder="1" value="${p.qty}"
+            <input class="p-qty"   type="number" min="1" placeholder="1" value="${p.qty}"
                 oninput="products[${i}].qty=parseFloat(this.value)||0; updateReceipt()">
             <input class="p-price" type="number" placeholder="0" value="${p.price || ''}"
                 oninput="products[${i}].price=parseFloat(this.value)||0; updateReceipt()">
             <button class="remove-btn" onclick="removeProduct(${p.id})">✕</button>
         `;
-        container.appendChild(row);
+        c.appendChild(row);
     });
 }
 
+/* ── RECEIPT CALC ── */
 function updateReceipt() {
-    let paid = parseFloat(document.getElementById("paid").value) || 0;
-    let discount = parseFloat(document.getElementById("discount").value) || 0;
-    let rProducts = document.getElementById("r_products");
-    rProducts.innerHTML = '';
+    const paid     = parseFloat(document.getElementById("paid").value)     || 0;
+    const discount = parseFloat(document.getElementById("discount").value) || 0;
+    const rp = document.getElementById("r_products");
+    rp.innerHTML = '';
     let total = 0;
 
     products.forEach(p => {
         if (!p.name && !p.price) return;
-        let amt = (p.qty || 1) * (p.price || 0);
+        const amt = (p.qty || 1) * (p.price || 0);
         total += amt;
-        let row = document.createElement('div');
+        const row = document.createElement('div');
         row.className = 'r-product-row';
         row.innerHTML = `
             <span class="r-name">${p.name || '—'}</span>
             <span class="r-qty">×${p.qty || 1}</span>
             <span class="r-amt">₹${amt}</span>
         `;
-        rProducts.appendChild(row);
+        rp.appendChild(row);
     });
 
-    let finalTotal = total - discount;
-
-    document.getElementById("r_total").innerText = total;
-    document.getElementById("r_paid").innerText = paid;
+    const finalTotal = total - discount;
+    document.getElementById("r_total").innerText   = total;
+    document.getElementById("r_paid").innerText    = paid;
     document.getElementById("r_pending").innerText = finalTotal - paid;
 
-    const discountRow = document.getElementById("r_discount_row");
+    const dr = document.getElementById("r_discount_row");
     if (discount > 0) {
         document.getElementById("r_discount").innerText = discount;
-        discountRow.style.display = 'flex';
+        dr.style.display = 'flex';
     } else {
-        discountRow.style.display = 'none';
+        dr.style.display = 'none';
     }
 }
 
 addProduct();
 
-function waitForImages(cb) {
+/* ── IMAGE CAPTURE ── */
+function waitForLogo(cb) {
     const img = document.getElementById("logo");
-    img.complete ? cb() : (img.onload = cb);
+    if (!img || img.style.display === 'none') { cb(); return; }
+    if (img.complete && img.naturalWidth > 0) { cb(); return; }
+    img.onload  = cb;
+    img.onerror = cb;
 }
 
 function getCanvas() {
     return html2canvas(document.getElementById("receipt"), {
         useCORS: true,
+        allowTaint: false,
         scale: 2,
-        backgroundColor: '#ffffff'
+        backgroundColor: '#ffffff',
+        logging: false
     });
 }
 
 function copyImage() {
-    waitForImages(() => {
-        getCanvas().then(canvas => {
-            canvas.toBlob(blob => {
-                navigator.clipboard.write([new ClipboardItem({ "image/png": blob })])
-                    .then(() => alert("Copied ✅"))
-                    .catch(() => alert("Clipboard blocked ❌ Use Save JPG"));
-            });
+    waitForLogo(() => getCanvas().then(canvas => {
+        canvas.toBlob(blob => {
+            navigator.clipboard.write([new ClipboardItem({ "image/png": blob })])
+                .then(() => alert("Copied ✅"))
+                .catch(() => alert("Clipboard blocked ❌  Use Save JPG instead."));
         });
-    });
+    }));
 }
 
 function downloadImage() {
-    waitForImages(() => {
-        getCanvas().then(canvas => {
-            let link = document.createElement("a");
-            link.download = "receipt.jpg";
-            link.href = canvas.toDataURL("image/jpeg", 1.0);
-            link.click();
-        });
-    });
+    waitForLogo(() => getCanvas().then(canvas => {
+        const a = document.createElement("a");
+        a.download = getFilename("jpg");
+        a.href     = canvas.toDataURL("image/jpeg", 1.0);
+        a.click();
+    }));
 }
 
 function sendWhatsApp() {
     let phone = document.getElementById("phone").value;
-    if (!phone) { alert("Enter WhatsApp number"); return; }
+    if (!phone) { alert("Enter WhatsApp number first."); return; }
     if (!phone.startsWith("91")) phone = "91" + phone;
-    waitForImages(() => {
-        getCanvas().then(canvas => {
-            canvas.toBlob(blob => {
-                navigator.clipboard.write([new ClipboardItem({ "image/png": blob })])
-                    .then(() => {
-                        window.open("https://wa.me/" + phone, "_blank");
-                        alert("Copied ✅ Paste in WhatsApp");
-                    });
-            });
+    waitForLogo(() => getCanvas().then(canvas => {
+        canvas.toBlob(blob => {
+            navigator.clipboard.write([new ClipboardItem({ "image/png": blob })])
+                .then(() => {
+                    window.open("https://wa.me/" + phone, "_blank");
+                    alert("Receipt copied ✅\nPaste the image inside the WhatsApp chat.");
+                })
+                .catch(() => {
+                    const a = document.createElement("a");
+                    a.download = getFilename("jpg");
+                    a.href     = canvas.toDataURL("image/jpeg", 1.0);
+                    a.click();
+                    window.open("https://wa.me/" + phone, "_blank");
+                    alert("JPG saved ✅  Attach it in WhatsApp.");
+                });
         });
-    });
+    }));
 }
+
+/* ── SAVE JSON ── */
+function saveJSON() {
+    const data = {
+        clientName : document.getElementById("clientName").value,
+        paid       : document.getElementById("paid").value,
+        discount   : document.getElementById("discount").value,
+        phone      : document.getElementById("phone").value,
+        products   : products.map(p => ({ name: p.name, qty: p.qty, price: p.price }))
+    };
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+    const a    = document.createElement("a");
+    a.download = getFilename("json");
+    a.href     = URL.createObjectURL(blob);
+    a.click();
+    URL.revokeObjectURL(a.href);
+}
+
+/* ── LOAD JSON DATA ── */
+function loadJSONData(data) {
+    document.getElementById("clientName").value = data.clientName || '';
+    document.getElementById("paid").value       = data.paid       || '';
+    document.getElementById("discount").value   = data.discount   || '';
+    document.getElementById("phone").value      = data.phone      || '';
+    products = (data.products || []).map((p, i) => ({
+        id: Date.now() + i, name: p.name || '', qty: p.qty || 1, price: p.price || 0
+    }));
+    if (products.length === 0) products.push({ id: Date.now(), name: '', qty: 1, price: 0 });
+    renderProductRows();
+    updateReceipt();
+    alert("Receipt loaded ✅");
+}
+
+/* ── CLEAR ── */
+function clearAll() {
+    if (!confirm("Clear everything and start a new receipt?")) return;
+    document.getElementById("clientName").value = '';
+    document.getElementById("paid").value       = '';
+    document.getElementById("discount").value   = '';
+    document.getElementById("phone").value      = '';
+    products = [];
+    addProduct();
+}
+
+/* ── COPY PHONE ── */
+function copyPhone() {
+    const phone = document.getElementById("phone").value.trim();
+    if (!phone) { alert("No number entered yet."); return; }
+    navigator.clipboard.writeText(phone).then(() => {
+        const btn = document.getElementById("copyPhoneBtn");
+        const orig = btn.textContent;
+        btn.textContent = "✅ Copied!";
+        btn.style.background = "#128c3e";
+        setTimeout(() => { btn.textContent = orig; btn.style.background = "#1a5fa8"; }, 2000);
+    }).catch(() => alert("Could not copy ❌"));
+}
+
+/* ── DRAG & DROP JSON ── */
+const overlay = document.getElementById("dragOverlay");
+
+document.addEventListener("dragenter", e => {
+    if ([...e.dataTransfer.items].some(i => i.kind === 'file')) {
+        overlay.classList.add("active");
+    }
+});
+document.addEventListener("dragover", e => { e.preventDefault(); });
+document.addEventListener("dragleave", e => {
+    if (!e.relatedTarget || e.relatedTarget === document.documentElement) {
+        overlay.classList.remove("active");
+    }
+});
+document.addEventListener("drop", e => {
+    e.preventDefault();
+    overlay.classList.remove("active");
+    const file = e.dataTransfer.files[0];
+    if (!file) return;
+    if (!file.name.toLowerCase().endsWith(".json")) {
+        alert("Please drop a .json file saved from this tool.");
+        return;
+    }
+    const reader = new FileReader();
+    reader.onload = ev => {
+        try { loadJSONData(JSON.parse(ev.target.result)); }
+        catch(err) { alert("Could not read JSON file ❌"); }
+    };
+    reader.readAsText(file);
+});
 
 </script>
 </body>
