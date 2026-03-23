@@ -20,104 +20,50 @@ body {
 }
 
 .card {
-    width: 360px;
+    width: 100%;
+    max-width: 680px;
     background: #f5f5f5;
     border: 1px solid #bbb;
     border-radius: 4px;
     overflow: hidden;
 }
 
-/* iPad Mini 2 responsive (768px wide) */
-@media (min-width: 600px) and (max-width: 900px) {
-    body {
-        padding: 32px 24px;
-        align-items: flex-start;
-    }
-    .card {
-        width: 480px;
-    }
-    .field input,
-    .product-row input,
-    .action-btn,
-    .add-btn {
-        font-size: 14px !important;
-    }
-    .col-header span,
-    .field label,
-    .section-title {
-        font-size: 11px !important;
-    }
-    .product-row input {
-        padding: 9px 10px !important;
-    }
-    .remove-btn {
-        width: 36px !important;
-        height: 36px !important;
-        font-size: 15px !important;
-    }
-    #receipt {
-        font-size: 14px !important;
-        padding: 20px !important;
-    }
-    .r-product-row,
-    .r-total-row,
-    .r-row {
-        font-size: 13px !important;
-    }
-    .logo {
-        width: 96px !important;
-    }
-    .action-btn {
-        padding: 13px !important;
-    }
-}
-
-/* Small phones */
-@media (max-width: 390px) {
-    .card {
-        width: 100%;
-    }
-    body {
-        padding: 12px 8px;
-    }
-}
-
 .section {
-    padding: 12px 14px;
+    padding: 16px 18px;
     border-bottom: 2px solid #bbb;
 }
 .section:last-child { border-bottom: none; }
 
 .section-title {
-    font-size: 10px;
+    font-size: 12px;
     font-weight: bold;
     letter-spacing: 1px;
     text-transform: uppercase;
     color: #777;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
 }
 
 .field {
     display: flex;
     flex-direction: column;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
 }
 .field:last-child { margin-bottom: 0; }
 
 .field label {
-    font-size: 10px;
+    font-size: 12px;
     color: #666;
-    margin-bottom: 3px;
+    margin-bottom: 4px;
     letter-spacing: 0.5px;
 }
 
 .field input {
     width: 100%;
-    padding: 7px 9px;
+    padding: 9px 11px;
     border: 1px solid #ccc;
     background: white;
     font-family: monospace;
-    font-size: 13px;
+    font-size: 15px;
     outline: none;
 }
 .field input:focus { border-color: #555; }
@@ -125,14 +71,14 @@ body {
 /* Product table header */
 .col-header {
     display: flex;
-    gap: 6px;
+    gap: 8px;
     align-items: center;
-    margin-bottom: 6px;
-    padding-bottom: 5px;
+    margin-bottom: 8px;
+    padding-bottom: 6px;
     border-bottom: 1px solid #ccc;
 }
 .col-header span {
-    font-size: 10px;
+    font-size: 12px;
     color: #888;
     font-weight: bold;
     letter-spacing: 0.5px;
@@ -141,21 +87,21 @@ body {
 .col-header .h-name  { flex: 2.2; }
 .col-header .h-qty   { flex: 0.7; text-align: center; }
 .col-header .h-price { flex: 1.1; text-align: right; }
-.col-header .h-del   { width: 30px; }
+.col-header .h-del   { width: 36px; }
 
 /* Product input rows */
 .product-row {
     display: flex;
-    gap: 6px;
+    gap: 8px;
     align-items: center;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
 }
 .product-row input {
-    padding: 7px 8px;
+    padding: 9px 10px;
     border: 1px solid #ccc;
     background: white;
     font-family: monospace;
-    font-size: 12px;
+    font-size: 14px;
     outline: none;
     width: 100%;
 }
@@ -165,13 +111,13 @@ body {
 .product-row .p-price { flex: 1.1; text-align: right; }
 
 .remove-btn {
-    width: 30px;
-    height: 32px;
+    width: 36px;
+    height: 38px;
     background: #cc0000;
     color: white;
     border: none;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -181,13 +127,13 @@ body {
 
 .add-btn {
     width: 100%;
-    padding: 8px;
+    padding: 10px;
     background: #444;
     color: white;
     border: none;
     cursor: pointer;
     font-family: monospace;
-    font-size: 12px;
+    font-size: 14px;
     letter-spacing: 0.5px;
     margin-top: 2px;
 }
@@ -197,17 +143,17 @@ body {
 .btn-group {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 8px;
+    gap: 10px;
 }
 .btn-full { grid-column: 1 / -1; }
 
 .action-btn {
     width: 100%;
-    padding: 10px;
+    padding: 13px;
     border: none;
     cursor: pointer;
     font-family: monospace;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: bold;
     letter-spacing: 0.5px;
 }
@@ -219,44 +165,44 @@ body {
 /* Receipt */
 #receipt {
     background: white;
-    padding: 16px;
-    font-size: 13px;
+    padding: 20px 24px;
+    font-size: 15px;
     border-top: 2px solid #bbb;
 }
 
 .r-center { text-align: center; }
 .r-bold   { font-weight: bold; }
 
-.logo { width: 80px; margin-bottom: 6px; }
+.logo { width: 96px; margin-bottom: 8px; }
 
 .r-divider {
     border: none;
     border-top: 1px dashed #000;
-    margin: 9px 0;
+    margin: 11px 0;
 }
 
 .r-row {
     display: flex;
     justify-content: space-between;
-    margin: 3px 0;
-    font-size: 12px;
+    margin: 4px 0;
+    font-size: 14px;
 }
 
 .r-item-header {
     display: flex;
-    font-size: 10px;
+    font-size: 12px;
     color: #888;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    padding-bottom: 4px;
+    padding-bottom: 5px;
     border-bottom: 1px solid #ddd;
-    margin-bottom: 4px;
+    margin-bottom: 5px;
 }
 .r-item-header .rh-name { flex: 2; }
 .r-item-header .rh-qty  { flex: 0.6; text-align: center; }
 .r-item-header .rh-amt  { flex: 1; text-align: right; }
 
-.r-product-row { display: flex; font-size: 12px; margin: 3px 0; }
+.r-product-row { display: flex; font-size: 14px; margin: 4px 0; }
 .r-product-row .r-name { flex: 2; }
 .r-product-row .r-qty  { flex: 0.6; text-align: center; color: #555; }
 .r-product-row .r-amt  { flex: 1; text-align: right; }
@@ -264,15 +210,23 @@ body {
 .r-total-row {
     display: flex;
     justify-content: space-between;
-    font-size: 12px;
-    margin: 3px 0;
+    font-size: 14px;
+    margin: 4px 0;
 }
 .r-total-row.pending {
     font-weight: bold;
-    font-size: 13px;
-    margin-top: 5px;
-    padding-top: 5px;
+    font-size: 15px;
+    margin-top: 6px;
+    padding-top: 6px;
     border-top: 1px solid #000;
+}
+
+/* Small phones */
+@media (max-width: 400px) {
+    body { padding: 12px 8px; }
+    .section { padding: 12px 12px; }
+    .field input { font-size: 14px; }
+    .product-row input { font-size: 13px; }
 }
 
 </style>
@@ -330,8 +284,8 @@ body {
                 crossorigin="anonymous" class="logo">
         </div>
 
-        <div class="r-center r-bold" style="font-size:15px;letter-spacing:1px;">MAGIC STUDIO</div>
-        <div class="r-center" style="font-size:11px;margin-top:4px;line-height:1.7;">
+        <div class="r-center r-bold" style="font-size:17px;letter-spacing:1px;">MAGIC STUDIO</div>
+        <div class="r-center" style="font-size:13px;margin-top:5px;line-height:1.8;">
             Shop No.9, Hareshwar Niwas,<br>
             Eksar Rd, Borivali (W), Mumbai<br>
             📞 96533 17228
@@ -360,7 +314,7 @@ body {
 
         <hr class="r-divider">
 
-        <div class="r-center" style="font-size:12px;">If it stands out, it's Magic Studio.</div>
+        <div class="r-center" style="font-size:13px;">If it stands out, it's Magic Studio.</div>
 
     </div>
 
