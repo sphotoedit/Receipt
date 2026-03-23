@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Magic Studio Receipt</title>
 <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 <style>
@@ -24,6 +25,61 @@ body {
     border: 1px solid #bbb;
     border-radius: 4px;
     overflow: hidden;
+}
+
+/* iPad Mini 2 responsive (768px wide) */
+@media (min-width: 600px) and (max-width: 900px) {
+    body {
+        padding: 32px 24px;
+        align-items: flex-start;
+    }
+    .card {
+        width: 480px;
+    }
+    .field input,
+    .product-row input,
+    .action-btn,
+    .add-btn {
+        font-size: 14px !important;
+    }
+    .col-header span,
+    .field label,
+    .section-title {
+        font-size: 11px !important;
+    }
+    .product-row input {
+        padding: 9px 10px !important;
+    }
+    .remove-btn {
+        width: 36px !important;
+        height: 36px !important;
+        font-size: 15px !important;
+    }
+    #receipt {
+        font-size: 14px !important;
+        padding: 20px !important;
+    }
+    .r-product-row,
+    .r-total-row,
+    .r-row {
+        font-size: 13px !important;
+    }
+    .logo {
+        width: 96px !important;
+    }
+    .action-btn {
+        padding: 13px !important;
+    }
+}
+
+/* Small phones */
+@media (max-width: 390px) {
+    .card {
+        width: 100%;
+    }
+    body {
+        padding: 12px 8px;
+    }
 }
 
 .section {
@@ -283,7 +339,6 @@ body {
 
         <hr class="r-divider">
 
-        <div class="r-row"><span>Receipt No</span><span id="receiptNo"></span></div>
         <div class="r-row"><span>Date</span><span id="date"></span></div>
         <div class="r-row"><span>Time</span><span id="time"></span></div>
 
@@ -320,17 +375,6 @@ function updateTime() {
 }
 setInterval(updateTime, 1000);
 updateTime();
-
-function getReceiptNumber() {
-    let num = localStorage.getItem("receiptNo") || 1;
-    document.getElementById("receiptNo").innerText = String(num).padStart(3, '0');
-}
-getReceiptNumber();
-
-function increaseReceipt() {
-    let num = parseInt(localStorage.getItem("receiptNo") || 1);
-    localStorage.setItem("receiptNo", ++num);
-}
 
 let products = [];
 
@@ -392,7 +436,6 @@ function updateReceipt() {
     document.getElementById("r_paid").innerText = paid;
     document.getElementById("r_pending").innerText = finalTotal - paid;
 
-    // Show discount row only if discount > 0
     const discountRow = document.getElementById("r_discount_row");
     if (discount > 0) {
         document.getElementById("r_discount").innerText = discount;
@@ -422,7 +465,7 @@ function copyImage() {
         getCanvas().then(canvas => {
             canvas.toBlob(blob => {
                 navigator.clipboard.write([new ClipboardItem({ "image/png": blob })])
-                    .then(() => { alert("Copied ✅"); increaseReceipt(); getReceiptNumber(); })
+                    .then(() => alert("Copied ✅"))
                     .catch(() => alert("Clipboard blocked ❌ Use Save JPG"));
             });
         });
@@ -436,8 +479,6 @@ function downloadImage() {
             link.download = "receipt.jpg";
             link.href = canvas.toDataURL("image/jpeg", 1.0);
             link.click();
-            increaseReceipt();
-            getReceiptNumber();
         });
     });
 }
@@ -453,8 +494,6 @@ function sendWhatsApp() {
                     .then(() => {
                         window.open("https://wa.me/" + phone, "_blank");
                         alert("Copied ✅ Paste in WhatsApp");
-                        increaseReceipt();
-                        getReceiptNumber();
                     });
             });
         });
